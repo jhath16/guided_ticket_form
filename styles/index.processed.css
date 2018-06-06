@@ -1,3 +1,27 @@
 body {
   background: #f5f5f5;
 }
+
+#app {
+  width:1000px;
+  border:1px solid black;
+  border-radius:3px;
+  margin:0 auto;
+  padding:8px;
+}
+
+#breadcrumb-view {
+  border: 1px solid black;
+  padding:4px
+}
+
+#list-container {
+  padding:0;
+  list-style-type:none;
+  border:1px solid blue;
+}
+
+.article-view {
+  padding:16px;
+  background:lightskyblue;
+}
