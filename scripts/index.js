@@ -163,9 +163,9 @@ let BreadCrumbView = Backbone.View.extend({
   },
 
   getURLByIndex: function (index, array) {
-    let url = "#/";
+    let urlRoot = "#/";
     let deepUrl = _.clone(array).splice(0, index + 1).join('/');
-    url += deepUrl;
+    let url = urlRoot += deepUrl;
     return url
   },
 
@@ -174,24 +174,28 @@ let BreadCrumbView = Backbone.View.extend({
 
     let self = this;
     let breadCrumbHTML = "<a href='#/'>Home</a>";
+
     _.each(routes, function (slug, index, array) {
       if (index == 0) {
         let displayString = self.findDisplayStringBySlug(store.topics, slug);
-        let url = self.getURLByIndex(0, array);
-        breadCrumbHTML += "<span>/</span>";
+        let url = self.getURLByIndex(index, array);
+        breadCrumbHTML += "<span> / </span>";
         breadCrumbHTML += "<a href='" + url + "'>" + displayString + "</a>";
       } else if (index == 1) {
         let displayString = self.findDisplayStringBySlug(store.categories, slug);
-        let url = self.getURLByIndex(1, array);
-        breadCrumbHTML += "<span>/</span>";
+        let url = self.getURLByIndex(index, array);
+        breadCrumbHTML += "<span> / </span>";
         breadCrumbHTML += "<a href='" + url + "'>" + displayString + "</a>";
       }
     });
-    console.log(breadCrumbHTML);
+
     this.$el.html(breadCrumbHTML);
   }
 });
 
+// TODO: Refactor GeneralListView to be base class
+//         - accept view to render and container to render to
+// TODO: Refactor ArticleListView to be an instance of GeneralListView
 let GeneralListView = Backbone.View.extend({
   initialize: function () {
     this.render();
@@ -211,13 +215,27 @@ let GeneralView = Backbone.View.extend({
     this.render();
   },
 
-  tagName: 'li',
+  tagName: 'a',
 
   className: 'general-view',
 
   template: _.template($('#general-view-template').text()),
 
+  generateURL: function () {
+    let url = window.location.hash.toString();
+    if (window.location.hash.startsWith('#')) {
+      if (!url.endsWith("/")) {
+        url += "/";
+      }
+       url += this.model.get('slug');
+     } else {
+       url += "#/" + this.model.get('slug');
+     }
+     return url;
+   },
+
   render: function () {
+    this.el.href = this.generateURL();
     this.$el.html(this.template(this.model.attributes));
   }
 });
@@ -246,7 +264,7 @@ let ArticleView = Backbone.View.extend({
     }
   },
 
-  tagName: 'li',
+  tagName: 'article',
 
   className: 'article-view',
 
@@ -262,7 +280,7 @@ let FormView = Backbone.View.extend({
     this.render();
   },
 
-  el: '#form-view',
+  el: '#form-container',
 
   render: function () {
     // either

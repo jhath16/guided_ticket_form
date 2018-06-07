@@ -1,5 +1,16 @@
 body {
   background: #f5f5f5;
+  color:#3D3F1B;
+  font-family: Helvetica;
+}
+
+a, a:visited {
+  color:#3D3F1B;
+  text-decoration:none;
+}
+
+h1 {
+  text-align:center;
 }
 
 #app {
@@ -8,20 +19,35 @@ body {
   border-radius:3px;
   margin:0 auto;
   padding:8px;
+  background:#f4f4f4;
 }
 
-#breadcrumb-view {
-  border: 1px solid black;
-  padding:4px
+#breadcrumb-container {
+  padding:4px;
+  margin-bottom:10px;
+}
+
+#breadcrumb-container a {
+  text-decoration:underline;
 }
 
 #list-container {
   padding:0;
   list-style-type:none;
-  border:1px solid blue;
+  border:1px solid black;
+}
+
+.article-view,
+.general-view {
+  padding: 16px;
+  background:#999F2F;
+  display:block;
 }
 
 .article-view {
-  padding:16px;
-  background:lightskyblue;
+
+}
+
+.general-view {
+
 }
